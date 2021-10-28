@@ -19,6 +19,14 @@ export class HomeComponent {
         this.loading = true;
         this.error = false;
 
+        // Invocación método para refrescar token
+        this.spotify.refreshToken().subscribe((data: any) => {
+            // Refrescamos token            
+            spotify.token = data.access_token;
+            console.log(`token atribute: ${spotify.token}`)
+            console.log(`token request: ${data.access_token}`);
+        });
+
         this.spotify.getNewReleases()
             .subscribe((data: any) => {
                 this.nuevasCanciones = data;
