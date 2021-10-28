@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 })
 export class SpotifyService {
 
-    public token: string = 'BQD0y4x1Pcv9nVFIsLXUx7JlrayYELJ3Eqt3sW8A_oWu83gEhPMJ9Zh5fWNL6bV0zCylc8pZaHaiS3M_gBQ';
+    public token: string = '';
 
     constructor(private http: HttpClient) {
         console.log('Spotify Service Listo');
@@ -30,17 +30,20 @@ export class SpotifyService {
 
     getQuery(query: string) {
 
-        const url = `https://api.spotify.com/v1/${ query }`;
-
-        const headers = new HttpHeaders({
-            'Authorization': `Bearer ${this.token}`,
-        });
+        // Invocación método para refrescar token
         this.refreshToken().subscribe((data: any) => {
             // Refrescamos token            
             this.token = data.access_token;
             console.log(`token atribute: ${this.token}`)
             console.log(`token request: ${data.access_token}`);
         });
+
+        const url = `https://api.spotify.com/v1/${ query }`;
+
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${this.token}`,
+        });
+
         return this.http.get(url, { headers });
     }
 
