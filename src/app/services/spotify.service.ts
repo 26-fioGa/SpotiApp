@@ -30,14 +30,6 @@ export class SpotifyService {
 
     getQuery(query: string) {
 
-        // Invocación método para refrescar token
-        this.refreshToken().subscribe((data: any) => {
-            // Refrescamos token            
-            this.token = data.access_token;
-            console.log(`token atribute: ${this.token}`)
-            console.log(`token request: ${data.access_token}`);
-        });
-
         const url = `https://api.spotify.com/v1/${ query }`;
 
         const headers = new HttpHeaders({
@@ -50,12 +42,28 @@ export class SpotifyService {
 
     getNewReleases() {
 
+        // Invocación método para refrescar token
+        this.refreshToken().subscribe((data: any) => {
+            // Refrescamos token            
+            this.token = data.access_token;
+            console.log(`token atribute: ${this.token}`)
+            console.log(`token request: ${data.access_token}`);
+        });
+
         return this.getQuery('browse/new-releases?limit=20')
             .pipe(map(data => data['albums'].items));
 
     }
 
     getArtistas(termino: string) {
+
+        // Invocación método para refrescar token
+        this.refreshToken().subscribe((data: any) => {
+            // Refrescamos token            
+            this.token = data.access_token;
+            console.log(`token atribute: ${this.token}`)
+            console.log(`token request: ${data.access_token}`);
+        });
 
         return this.getQuery(`search?q=${ termino }&type=artist&limit=15`)
             .pipe(map(data => data['artists'].items));
@@ -64,12 +72,28 @@ export class SpotifyService {
 
     getArtista(id: string) {
 
+        // Invocación método para refrescar token
+        this.refreshToken().subscribe((data: any) => {
+            // Refrescamos token            
+            this.token = data.access_token;
+            console.log(`token atribute: ${this.token}`)
+            console.log(`token request: ${data.access_token}`);
+        });
+
         return this.getQuery(`artists/${ id }`);
         // .pipe( map( data => data['artists'].items));
 
     }
 
     getTopTracks(id: string) {
+
+        // Invocación método para refrescar token
+        this.refreshToken().subscribe((data: any) => {
+            // Refrescamos token            
+            this.token = data.access_token;
+            console.log(`token atribute: ${this.token}`)
+            console.log(`token request: ${data.access_token}`);
+        });
 
         return this.getQuery(`artists/${ id }/top-tracks?country=us`)
             .pipe(map(data => data['tracks']));
